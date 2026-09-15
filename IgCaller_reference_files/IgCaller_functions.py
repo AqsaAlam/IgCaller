@@ -1530,7 +1530,7 @@ def getJandVsequences(round, seq, phaseReadsBasedOnMutations, information, annot
 					totseqW = i[11]+i[12]+i[13]
 				else:
 					totseqW = i[13]+i[12]+i[11]
-				totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+				totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 				i[16] = totseqW
 	
 	return(information)
@@ -1554,12 +1554,12 @@ def createConsensusD(DseqTemp, GENE, i, Dseqs):
 		v = i[10] # it is J
 	
 	if j[-1] == "]":
-		if DseqConsensus.startswith(j[max([a.start()+1 for a in re.finditer("\[", j)]):-1]):
-			DseqConsensus = DseqConsensus[len(j)-2-max([a.start()+1 for a in re.finditer("\[", j)])+1:]
+		if DseqConsensus.startswith(j[max([a.start()+1 for a in re.finditer(r"\[", j)]):-1]):
+			DseqConsensus = DseqConsensus[len(j)-2-max([a.start()+1 for a in re.finditer(r"\[", j)])+1:]
 			
 	if v[0] == "[":
-		if DseqConsensus.endswith(v[1:min([a.start()+1 for a in re.finditer("\]", v)])-1]):
-			DseqConsensus = DseqConsensus[:len(DseqConsensus)-min([a.start()+1 for a in re.finditer("\]", v)])+2]
+		if DseqConsensus.endswith(v[1:min([a.start()+1 for a in re.finditer(r"\]", v)])-1]):
+			DseqConsensus = DseqConsensus[:len(DseqConsensus)-min([a.start()+1 for a in re.finditer(r"\]", v)])+2]
 	
 	# if IGH or TRB or TRD, and not partial rearrangement (J-D), check D gene and update geneNames:
 	if GENE in ["IGH", "TRB", "TRD"] and i[0].split(" - ")[0][3] != "D" and i[0].split(" - ")[1][3] != "D":
@@ -1850,14 +1850,14 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 
 							# Vseq: remove deleted nucleotides, check insertion at first bases, keep insertions not at first base:
 							if GENE not in ["IGL", "TRA", "TRB", "TRD"]: 
-								vSeq = re.sub("\(.*?\)", "",  i[12])
+								vSeq = re.sub(r"\(.*?\)", "",  i[12])
 								if vSeq[0] == "[":
-									vSeq = vSeq[min([a.start()+1 for a in re.finditer("\]", vSeq)]):]
+									vSeq = vSeq[min([a.start()+1 for a in re.finditer(r"\]", vSeq)]):]
 							
 							else: # it is J in IGL/TRA/TRB/TRD
-								vSeq = re.sub("\(.*?\)", "",  i[10])
+								vSeq = re.sub(r"\(.*?\)", "",  i[10])
 								if vSeq[-1] == "]":
-									vSeq = vSeq[:max([a.start() for a in re.finditer("\[", vSeq)]):]
+									vSeq = vSeq[:max([a.start() for a in re.finditer(r"\[", vSeq)]):]
 							
 							vSeq = vSeq.replace("[", "").replace("]", "")
 
@@ -1905,13 +1905,13 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 
 							# jSeq: remove deleted nucleotides, check insertion at last bases, keep insertions not at last base:
 							if GENE not in ["IGL", "TRA", "TRB", "TRD"]: 
-								jSeq = re.sub("\(.*?\)", "",  i[10])
+								jSeq = re.sub(r"\(.*?\)", "",  i[10])
 								if jSeq[-1] == "]":
-									jSeq = jSeq[:max([a.start() for a in re.finditer("\[", jSeq)]):]
+									jSeq = jSeq[:max([a.start() for a in re.finditer(r"\[", jSeq)]):]
 							else:  # it is V in IGL/TRA/TRB/TRD
-								jSeq = re.sub("\(.*?\)", "",  i[12])
+								jSeq = re.sub(r"\(.*?\)", "",  i[12])
 								if jSeq[0] == "[":
-									jSeq = jSeq[min([a.start()+1 for a in re.finditer("\]", jSeq)]):]
+									jSeq = jSeq[min([a.start()+1 for a in re.finditer(r"\]", jSeq)]):]
 									
 							jSeq = jSeq.replace("[", "").replace("]", "")
 
@@ -1972,7 +1972,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 							totseqW = iToAddInToAddInInformationlist[10]+iToAddInToAddInInformationlist[11]+iToAddInToAddInInformationlist[12]
 						else:
 							totseqW = iToAddInToAddInInformationlist[12]+iToAddInToAddInInformationlist[11]+iToAddInToAddInInformationlist[10]
-						totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+						totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 						iToAddInToAddInInformationlist.insert(-3, totseqW)
 						
 						toAddInInformation.append(iToAddInToAddInInformationlist)
@@ -1984,7 +1984,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 							totseqW = i[10]+i[11]+i[12]
 						else:
 							totseqW = i[12]+i[11]+i[10]
-						totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+						totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 						i.insert(-3, totseqW)
 					
 					countToAdd += 1
@@ -2006,7 +2006,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 						totseqW = iToAddInToAddInInformationlist[10]+iToAddInToAddInInformationlist[11]+iToAddInToAddInInformationlist[12]
 					else:
 						totseqW = iToAddInToAddInInformationlist[12]+iToAddInToAddInInformationlist[11]+iToAddInToAddInInformationlist[10]
-					totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+					totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 					iToAddInToAddInInformationlist.insert(-3, totseqW)
 					toAddInInformation.append(iToAddInToAddInInformationlist)
 					
@@ -2019,7 +2019,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 						totseqW = i[10]+i[11]+i[12]
 					else:
 						totseqW = i[12]+i[11]+i[10]
-					totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+					totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 					i.insert(-3, totseqW)
 					
 					AorBdone = "yes"
@@ -2035,7 +2035,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 					totseqW = i[10]+i[11]+i[12]
 				else:
 					totseqW = i[12]+i[11]+i[10]
-				totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+				totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 				i.insert(-3, totseqW)
 		
 		## D) No D... just concatenate sequence
@@ -2080,7 +2080,7 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 					totseqW = i[10]+i[11]+i[12]
 				else:
 					totseqW = i[12]+i[11]+i[10]
-			totseqW = re.sub("\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
+			totseqW = re.sub(r"\(.*?\)", "", totseqW.replace("[", "").replace("]", ""))
 			i.insert(-3, totseqW)
 	
 	information.extend(toAddInInformation) # extend information with duplicated entries with different D (from previous A and B)
@@ -2130,14 +2130,14 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 						
 						# Vseq: remove deleted nucleotides, check insertion at first bases, keep insertions not at first base:
 						if GENE not in ["IGL", "TRA", "TRB", "TRD"]: 
-							vSeq = re.sub("\(.*?\)", "",  i[12])
+							vSeq = re.sub(r"\(.*?\)", "",  i[12])
 							if vSeq[0] == "[":
-								vSeq = vSeq[min([a.start()+1 for a in re.finditer("\]", vSeq)]):]
+								vSeq = vSeq[min([a.start()+1 for a in re.finditer(r"\]", vSeq)]):]
 						
 						else: # it is J in IGL/TRA/TRB/TRD
-							vSeq = re.sub("\(.*?\)", "",  i[10])
+							vSeq = re.sub(r"\(.*?\)", "",  i[10])
 							if vSeq[-1] == "]":
-								vSeq = vSeq[:max([a.start() for a in re.finditer("\[", vSeq)]):]
+								vSeq = vSeq[:max([a.start() for a in re.finditer(r"\[", vSeq)]):]
 						
 						vSeq = vSeq.replace("[", "").replace("]", "")
 						dvSeq = i[11]+vSeq # add D prior Vseq
@@ -2172,13 +2172,13 @@ def getDsequence(information, annot_table_JV, GENE, Dseqs, minimumNumberOfNucleo
 						
 						# jSeq: remove deleted nucleotides, check insertion at last bases, keep insertions not at last base:
 						if GENE not in ["IGL", "TRA", "TRB", "TRD"]: 
-							jSeq = re.sub("\(.*?\)", "",  i[10])
+							jSeq = re.sub(r"\(.*?\)", "",  i[10])
 							if jSeq[-1] == "]":
-								jSeq = jSeq[:max([a.start() for a in re.finditer("\[", jSeq)]):]
+								jSeq = jSeq[:max([a.start() for a in re.finditer(r"\[", jSeq)]):]
 						else:  # it is V in IGL/TRA/TRB/TRD
-							jSeq = re.sub("\(.*?\)", "",  i[12])
+							jSeq = re.sub(r"\(.*?\)", "",  i[12])
 							if jSeq[0] == "[":
-								jSeq = jSeq[min([a.start()+1 for a in re.finditer("\]", jSeq)]):]
+								jSeq = jSeq[min([a.start()+1 for a in re.finditer(r"\]", jSeq)]):]
 								
 						jSeq = jSeq.replace("[", "").replace("]", "")
 						jdSeq = jSeq+i[11] # add D after Jseq
@@ -2521,8 +2521,8 @@ def checkHomologyAndFunctionality(information, GENE):
 			productiu = "No junction found"
 			
 			# remove insertions from V to check productivity (but keep deletions):
-			tumSeq = re.sub("\[.*?\]", "", p[13]).replace("(", "").replace(")", "")
-			normSeq = re.sub("\[.*?\]", "", p[14]).replace("(", "").replace(")", "")
+			tumSeq = re.sub(r"\[.*?\]", "", p[13]).replace("(", "").replace(")", "")
+			normSeq = re.sub(r"\[.*?\]", "", p[14]).replace("(", "").replace(")", "")
 
 			# complement if needed
 			if GENE not in ["IGL", "TRA", "TRB", "TRD"]:
@@ -2594,9 +2594,9 @@ def checkHomologyAndFunctionality(information, GENE):
 						# if complete (D found for IGH/TRB/TRD or not IGH/TRB/TRD and FR1-FR3 found previously), check if productive and get CDR3:
 						if ((GENE in ["IGH", "TRB", "TRD"] and p[12] != "") or GENE not in ["IGH", "TRB", "TRD"]) and hom != "NA":
 							if GENE not in ["IGL", "TRA", "TRB", "TRD"]:
-								j = ''.join(complement[base] for base in reversed(re.sub("\(.*?\)", "", p[11]).replace("[", "").replace("]", ""))) # remove deletions only from J to check productivity
+								j = ''.join(complement[base] for base in reversed(re.sub(r"\(.*?\)", "", p[11]).replace("[", "").replace("]", ""))) # remove deletions only from J to check productivity
 							else:
-								j = re.sub("\(.*?\)", "", p[11].replace("[", "").replace("]", "")) # remove deletions only from J to check productivity
+								j = re.sub(r"\(.*?\)", "", p[11].replace("[", "").replace("]", "")) # remove deletions only from J to check productivity
 							
 							# VDJ sequence and CDR3
 							vdj = vSeq+j
@@ -2657,9 +2657,9 @@ def checkHomologyAndFunctionality(information, GENE):
 							# if complete (D found for IGH or not IGH and FR1-FR3 found previously), check if productive and get CDR3 sequence:
 							if ((GENE == "IGH" and p[12] != "") or GENE != "IGH") and hom_2 != "NA":
 								if GENE != "IGL":
-									j = ''.join(complement[base] for base in reversed(re.sub("\(.*?\)", "", p[11]).replace("[", "").replace("]", ""))) # remove deletions only from J to check productivity
+									j = ''.join(complement[base] for base in reversed(re.sub(r"\(.*?\)", "", p[11]).replace("[", "").replace("]", ""))) # remove deletions only from J to check productivity
 								else:
-									j = re.sub("\(.*?\)", "", p[11]).replace("[", "").replace("]", "") # remove deletions only from J to check productivity
+									j = re.sub(r"\(.*?\)", "", p[11]).replace("[", "").replace("]", "") # remove deletions only from J to check productivity
 					
 								# VDJ sequence and CDR3
 								vdj = vSeq+j
