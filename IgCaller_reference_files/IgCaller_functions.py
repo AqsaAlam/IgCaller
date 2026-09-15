@@ -1023,7 +1023,7 @@ def getJandVsequences(round, seq, phaseReadsBasedOnMutations, information, annot
 					else: # "third"
 						readsSpanningRearrangement = i[-4].split(",")+i[-3].split(",")+i[-2].split(",")+i[-1].split(",")
 
-					readNamesFileTxt = miniBamT.replace("miniBam.bam", "_readNameReadsSpanningRearrangement.txt")
+					readNamesFileTxt = miniBamT.replace("miniBam.bam", "readNameReadsSpanningRearrangement.txt")
 					readNamesFile = open(readNamesFileTxt, "w")
 					readNamesFile.write("\n".join(readsSpanningRearrangement))
 					readNamesFile.close()
@@ -1252,7 +1252,7 @@ def getJandVsequences(round, seq, phaseReadsBasedOnMutations, information, annot
 									if len(readNamePhaseMutTemp) > 0:
 										breakInV = i[8] if (GENE in ["IGL", "TRA", "TRD"] or (GENE == "TRB" and i[1] == "Deletion") or (GENE == "IGK" and i[1] == "Inversion2")) else i[7]
 
-										readNamesFileTxt = miniBamT.replace("miniBam.bam", "_readNamePhaseMut.txt")
+										readNamesFileTxt = miniBamT.replace("miniBam.bam", "readNamePhaseMut.txt")
 										readNamesFile = open(readNamesFileTxt, "w")
 										readNamesFile.write("\n".join(readNamePhaseMutTemp))
 										readNamesFile.close()
@@ -1279,7 +1279,7 @@ def getJandVsequences(round, seq, phaseReadsBasedOnMutations, information, annot
 										readsPhasedUsingMutations = readsPhasedUsingMutations + readNamePhaseMut # append to readsPhasedUsingMutations
 									
 									# make bam with reads phased with last mutation
-									readNamesFileTxt = miniBamT.replace("miniBam.bam", "_readNamePhaseMut.txt")
+									readNamesFileTxt = miniBamT.replace("miniBam.bam", "readNamePhaseMut.txt")
 									readNamesFile = open(readNamesFileTxt, "w")
 									readNamesFile.write("\n".join(readNamePhaseMut))
 									readNamesFile.close()
@@ -3034,7 +3034,7 @@ def addMapQualAndScore(information, miniBamT, tumorPurity, pathToSamtools, threa
 
 		listOfReadsInRearrangement = [readName for readName in i[17].split(",")+i[18].split(",")+i[19].split(",") if readName != ""]
 		
-		readNamesFileTxt = miniBamT.replace("miniBam.bam", "_readNamesForMQ.txt")
+		readNamesFileTxt = miniBamT.replace("miniBam.bam", "readNamesForMQ.txt")
 		readNamesFile = open(readNamesFileTxt, "w")
 		readNamesFile.write("\n".join(listOfReadsInRearrangement))
 		readNamesFile.close()
