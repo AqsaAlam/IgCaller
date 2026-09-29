@@ -4008,7 +4008,7 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
                 print("coordsToSubsetNormal:", len(coordsToSubsetNormal), flush=True)
                 print("samN:", len(samN), samN, flush=True)
                 print("comms:", len(comms), flush=True)
-                # AQSA END
+                # AQSA ENDs
 
                 subprocess.call(comms, shell=True)
 
