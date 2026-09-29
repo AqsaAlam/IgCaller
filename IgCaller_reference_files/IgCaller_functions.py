@@ -4003,7 +4003,14 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 
 		samN = wkDir+"/tmp/"+bamN.split("/")[-1].replace(".bam", ".sam")
 		comms = pathToSamtools+"samtools view -@ "+threadsForSamtools+" -q "+mapqOnco+" "+bamN+" "+coordsToSubsetNormal+" > "+samN
-		subprocess.call(comms, shell=True)
+		# AQSA START
+                print("bamN:", len(bamN), bamN, flush=True)
+                print("coordsToSubsetNormal:", len(coordsToSubsetNormal), flush=True)
+                print("samN:", len(samN), samN, flush=True)
+                print("comms:", len(comms), flush=True)
+                # AQSA END
+
+                subprocess.call(comms, shell=True)
 
 		readNamesUsedInNormal = [] # to avoid counting R1 and R2 twice
 		samfile = open(samN, "r")
