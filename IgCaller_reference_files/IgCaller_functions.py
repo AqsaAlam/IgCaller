@@ -319,7 +319,7 @@ def convertSamToAnnotatedTable(miniSamT, chromGene, GENE, minimumNumberOfNucleot
 				else: # negative strand  
 					d = int(w[3]) 
 				
-				if 	int(flagToCustomBinary(w[1])[6]) == 1 and int(flagToCustomBinary(w[1])[4]) == 0 and int(w[8]) > 0: # first in pair and positive strand and insertSize > 0 (97 -> del) (65 -> inv)
+				if	int(flagToCustomBinary(w[1])[6]) == 1 and int(flagToCustomBinary(w[1])[4]) == 0 and int(w[8]) > 0: # first in pair and positive strand and insertSize > 0 (97 -> del) (65 -> inv)
 					w.append(d)
 					w.append("NA")
 				elif int(flagToCustomBinary(w[1])[6]) == 0 and int(flagToCustomBinary(w[1])[4]) == 1 and int(w[8]) < 0: # second in pair and negative strand and insertSize < 0 (145 <- del) (177 <- inv)
@@ -774,7 +774,7 @@ def addPositionsAndOccurrences(GENE, pos, bedFile, shortV, data):
 						break
 			VDJ.close()		
 			row.extend(sorted([h, keyPosV]))
-			if row[-1] - row[-2] < 5 or ( not keyV.startswith(("IGL", "TRA", "TRB", "TRD")) and partialJDRearrangement == "no" and  row[-1] - row[-2] < 50 ): continue
+			if row[-1] - row[-2] < 5 or ( not keyV.startswith(("IGL", "TRA", "TRB", "TRD")) and partialJDRearrangement == "no" and	row[-1] - row[-2] < 50 ): continue
 			
 			# add 0 for split reads in V used afterwards
 			row.append(0)
@@ -2467,14 +2467,14 @@ def productivityAndCDR3(vdj, nCDR3, GENE):
 				nCDR3_a = nCDR3[:j118]
 		
 				# out-of-frame
-				if not (len(nCDR3_a)/3).is_integer(): 				
+				if not (len(nCDR3_a)/3).is_integer():				
 					if productiu == "Unproductive (stop codons)": productiu = "Unproductive (stop codons, out-of-frame junction)"
 					else: productiu = "Unproductive (out-of-frame junction)"
 			
 					if ((len(nCDR3_a)+1)/3).is_integer(): add = "."
 					else: add = ".."
 					nCDR3_a = nCDR3_a[:-9]+add+nCDR3_a[-9:]
-					tripCDR3 = re.findall('.{3}', nCDR3_a)  
+					tripCDR3 = re.findall('.{3}', nCDR3_a)	
 					aaCDR3 = "".join([tripletsToAA[aa] if "." not in aa and "N" not in aa else "?" if "N" in aa else "#" for aa in tripCDR3])
 
 				# in frame
@@ -3576,7 +3576,7 @@ def classSwitchAnalysis(wkDir, data, annot_table_JV, bedFile, baseq, chromGene, 
 
 	class_switch = []
 	class_switch_filt = []
-	reductionMeans  = []
+	reductionMeans	= []
 	
 	for key in data:
 		kGenes = key.split(" - ")[0]+" - "+key.split(" - ")[1]
@@ -3824,7 +3824,7 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 			nNucleotides = "NA"
 			if w[10].startswith("SA:Z") and w[10].split(":")[2].split(",")[0] in chroms:
 				if strandInChrom == "+" and strandOutChromSA == "+" and any("M" in sub for sub in two1):
-					lastM1  = len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "M" in val) - 1
+					lastM1	= len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "M" in val) - 1
 					firstM2 = next(i for i, val in enumerate(two2, 0) if "M" in val)
 					matches1 = sum([int(val[0]) for i, val in enumerate(two1, 0) if i <= lastM1])
 					if strands == "regular": 
@@ -3846,7 +3846,7 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 						nNucleotides = w[9][matches2:nonmatches1] if matches2 < nonmatches1 else "None"
 					else: nNucleotides = "NA"
 				elif strandInChrom == "+" and strandOutChromSA == "-" and any("M" in sub for sub in two1):
-					lastM1  = len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "M" in val) - 1
+					lastM1	= len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "M" in val) - 1
 					lastM2 = len(two2) - next(i for i, val in enumerate(reversed(two2), 0) if "M" in val) - 1
 					matches1 = sum([int(val[0]) for i, val in enumerate(two1, 0) if i <= lastM1])
 					if strands == "regular":
@@ -3857,8 +3857,8 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 						nNucleotides = w[9][matches1:nonMatches2] if matches1 < nonMatches2 else "None"
 					else: nNucleotides = "NA"
 				elif strandInChrom == "-" and strandOutChromSA == "+" and any("S" in sub for sub in two1):
-					lastS1  = len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "S" in val) - 1
-					lastS2  = len(two2) - next(i for i, val in enumerate(reversed(two2), 0) if "S" in val) - 1
+					lastS1	= len(two1) - next(i for i, val in enumerate(reversed(two1), 0) if "S" in val) - 1
+					lastS2	= len(two2) - next(i for i, val in enumerate(reversed(two2), 0) if "S" in val) - 1
 					nonmatches1 = sum([int(val[0]) for i, val in enumerate(two1, 0) if i <= lastS1])
 					if strands == "regular": 
 						matches2 = sum([int(val[0]) for i, val in enumerate(two2, 0) if i > lastS2])
@@ -3914,7 +3914,7 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 				# check if new one-read translocation could be added to an already merged potential translocation:
 				if key2 in translocations[key1]:
 					for item2 in translocations[key1][key2]:
-						if ( abs(int(item[0]) - int(min(map(int, item2[1].split("-"))))) < 200 or abs(int(item[0]) - int(max(map(int, item2[1].split("-"))))) < 200 ) and item[1] == item2[2] and ( abs(int(item[2]) - int(min(map(int, item2[4].split("-"))))) < 1000 or abs(int(item[2]) - int(max(map(int, item2[4].split("-"))))) < 1000 )  and item[3] == item2[5]:
+						if ( abs(int(item[0]) - int(min(map(int, item2[1].split("-"))))) < 200 or abs(int(item[0]) - int(max(map(int, item2[1].split("-"))))) < 200 ) and item[1] == item2[2] and ( abs(int(item[2]) - int(min(map(int, item2[4].split("-"))))) < 1000 or abs(int(item[2]) - int(max(map(int, item2[4].split("-"))))) < 1000 )	and item[3] == item2[5]:
 							# check if same readName and readType already considered (overlaping R1 and R2)
 							if item[7] in item2[10].split(","):
 								indexOfRead = item2[10].split(",").index(item[7])
@@ -3992,7 +3992,7 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 	translocationsFiltered[chrom+"22"] = {}
 	for key1 in translocations:
 		for key2 in translocations[key1]:
-			for item in translocations[key1][key2]: 				
+			for item in translocations[key1][key2]:					
 				if item[6] >= mntonco:
 					if key2 in translocationsFiltered[key1]: translocationsFiltered[key1][key2].append(item)
 					else: translocationsFiltered[key1][key2] = [ item ]
@@ -4004,13 +4004,13 @@ def getIgTranslocations(wkDir, genomeVersion, inputsFolder, pathToSamtools, thre
 		samN = wkDir+"/tmp/"+bamN.split("/")[-1].replace(".bam", ".sam")
 		comms = pathToSamtools+"samtools view -@ "+threadsForSamtools+" -q "+mapqOnco+" "+bamN+" "+coordsToSubsetNormal+" > "+samN
 		# AQSA START
-                print("bamN:", len(bamN), bamN, flush=True)
-                print("coordsToSubsetNormal:", len(coordsToSubsetNormal), flush=True)
-                print("samN:", len(samN), samN, flush=True)
-                print("comms:", len(comms), flush=True)
-                # AQSA ENDs
+		print("bamN:", len(bamN), bamN, flush=True)
+		print("coordsToSubsetNormal:", len(coordsToSubsetNormal), flush=True)
+		print("samN:", len(samN), samN, flush=True)
+		print("comms:", len(comms), flush=True)
+		# AQSA ENDs
 
-                subprocess.call(comms, shell=True)
+		subprocess.call(comms, shell=True)
 
 		readNamesUsedInNormal = [] # to avoid counting R1 and R2 twice
 		samfile = open(samN, "r")
